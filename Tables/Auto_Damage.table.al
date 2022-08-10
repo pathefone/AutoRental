@@ -5,10 +5,11 @@ table 50106 "Auto Damage"
 
     fields
     {
-        field(1; "Row No."; Integer)
+        field(1; "Line No."; Integer)
         {
             DataClassification = CustomerContent;
-            Caption = 'Row No.';
+            Caption = 'Line No.';
+            Editable = false;
         }
         field(10; "Auto No."; Code[10])
         {
@@ -33,14 +34,13 @@ table 50106 "Auto Damage"
         }
     }
 
+
+
     keys
     {
-        key(Key1; "Row No.", "Auto No.")
+        key(Key1; "Line No.", "Auto No.")
         {
             Clustered = true;
         }
     }
-
-
-
 }

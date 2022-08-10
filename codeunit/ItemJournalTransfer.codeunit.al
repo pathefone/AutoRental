@@ -21,7 +21,7 @@ codeunit 50102 "Item Journal Transfer"
         if not ItemJournalLine.FindLast() then
             ItemJournalLine.Init();
 
-        exit(ItemJournalLine."Line No." + 1);
+        exit(ItemJournalLine."Line No." + 10000); 
     end;
 
     procedure TransferItem(AutoRentHeader: Record "Auto Rent Header"; LocationCode: Code[10]; NewLocationCode: Code[10])

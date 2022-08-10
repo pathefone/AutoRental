@@ -15,7 +15,7 @@ page 50105 "Auto Reservation List"
                 {
                     ApplicationArea = All;
                 }
-                field("Row No."; Rec."Row No.")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
                 }

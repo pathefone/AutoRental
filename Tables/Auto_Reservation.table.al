@@ -4,10 +4,10 @@ table 50105 "Auto Reservation"
 
     fields
     {
-        field(1; "Row No."; Code[10])
+        field(1; "Line No."; Code[10])
         {
             DataClassification = CustomerContent;
-            Caption = 'Row No.';
+            Caption = 'Line No.';
         }
         field(10; "Auto No."; Code[10])
         {
@@ -28,7 +28,8 @@ table 50105 "Auto Reservation"
 
             trigger OnValidate()
             begin
-                ValidateReservationDate();
+                if Rec."Reservation From" <> 0D then
+                    ValidateReservationDate();
             end;
         }
         field(13; "Reservation To"; Date)
@@ -38,14 +39,15 @@ table 50105 "Auto Reservation"
 
             trigger OnValidate()
             begin
-                ValidateReservationDate();
+                if Rec."Reservation To" <> 0D then
+                    ValidateReservationDate();
             end;
         }
     }
 
     keys
     {
-        key(Key1; "Row No.", "Auto No.")
+        key(Key1; "Line No.", "Auto No.")
         {
             Clustered = true;
         }

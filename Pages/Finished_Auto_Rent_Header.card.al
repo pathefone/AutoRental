@@ -15,7 +15,7 @@ page 50114 "Finished Auto Rent Line"
                 {
                     ApplicationArea = All;
                 }
-                field("Row No."; Rec."Row No.")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
                 }
@@ -46,6 +46,7 @@ page 50114 "Finished Auto Rent Line"
             }
 
         }
+
 
     }
 }
@@ -106,6 +107,14 @@ page 50113 "Finished Auto Rent Header Card"
                 {
                     SubPageLink = "Document No." = field("No.");
                 }
+            }
+        }
+        area(FactBoxes)
+        {
+            part("Driver License Picture"; "Driver License")
+            {
+                Caption = 'Driver license';
+                SubPageLink = "No." = field("No.");
             }
         }
     }

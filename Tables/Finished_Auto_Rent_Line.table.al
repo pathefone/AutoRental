@@ -11,10 +11,10 @@ table 50110 "Finished Auto Rent Line"
             Caption = 'Document No.';
             Editable = false;
         }
-        field(10; "Row No."; Code[10])
+        field(10; "Line No."; Integer)
         {
             DataClassification = CustomerContent;
-            Caption = 'Row No.';
+            Caption = 'Line No.';
             Editable = false;
         }
         field(11; "Main Line"; Boolean)
@@ -63,7 +63,7 @@ table 50110 "Finished Auto Rent Line"
 
     keys
     {
-        key(Key1; "Document No.", "Row No.")
+        key(Key1; "Document No.", "Line No.")
         {
             Clustered = true;
         }

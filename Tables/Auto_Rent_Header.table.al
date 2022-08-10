@@ -8,7 +8,6 @@ table 50107 "Auto Rent Header"
         {
             DataClassification = CustomerContent;
             Caption = 'No.';
-            TableRelation = "No. Series";
             Editable = false;
         }
         field(10; "Client No."; Code[20])
@@ -27,21 +26,20 @@ table 50107 "Auto Rent Header"
             begin
                 if CustLedgerEntry.Get("Client No.") then begin
                     Debt := CustLedgerEntry.Amount;
+
                     if Debt > 0 then
                         Error(DebtLbl);
                 end;
 
-                if Customer.Get("Client No.") then begin
-                    if Customer.Blocked = Customer.Blocked::All then
-                        Error(BlockedLbl);
-                end;
+                Customer.Get("Client No.");
+                if Customer.IsBlocked() then
+                    Error(BlockedLbl);
             end;
         }
-        field(11; "Driver License"; Blob)
+        field(11; "Driver License"; Media)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = CustomerContent;
             Caption = 'Driver License';
-            SubType = Bitmap;
         }
         field(12; "Date"; Date)
         {
@@ -67,7 +65,10 @@ table 50107 "Auto Rent Header"
 
             trigger OnValidate()
             begin
-                ReservationValidation(ValidationType::"Reservation From");
+                if Rec."Reservation From" <> 0D then begin
+                    ReservationValidation(ValidationType::"Reservation From");
+                end;
+
             end;
         }
         field(15; "Reservation To"; Date)
@@ -77,7 +78,9 @@ table 50107 "Auto Rent Header"
 
             trigger OnValidate()
             begin
-                ReservationValidation(ValidationType::"Reservation To");
+                if Rec."Reservation To" <> 0D then begin
+                    ReservationValidation(ValidationType::"Reservation To");
+                end;
             end;
         }
         field(16; "Sum"; Decimal)
@@ -111,7 +114,7 @@ table 50107 "Auto Rent Header"
 
 
 
-    //create codeunit for no series generation?
+
     trigger OnInsert()
     var
         AutoSetup: Record "Auto Setup";
@@ -124,14 +127,13 @@ table 50107 "Auto Rent Header"
     end;
 
 
-    local procedure GetRentalPrice() //problem here, create new record and the sum does not update until you open card?
+    local procedure GetRentalPrice()
     var
         Auto: Record Auto;
     begin
         if Auto.Get(Rec."Auto No.") then begin
             Auto.CalcFields("Rental Price");
             Rec."Sum" := Auto."Rental Price";
-            //Rec.Modify();
         end;
     end;
 

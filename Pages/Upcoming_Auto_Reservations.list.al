@@ -17,7 +17,7 @@ page 50106 "Upcoming Auto Reservations"
                     ApplicationArea = All;
                     Enabled = false;
                 }
-                field("Row No."; Rec."Row No.")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
                     Enabled = false;
@@ -45,7 +45,6 @@ page 50106 "Upcoming Auto Reservations"
         var
             NoReservationsMsg: Label 'No upcoming reservations found!';
         begin
-            //Rec.SetRange("Reservation From", System.Today());
             Rec.SetFilter("Reservation From", '>%1', System.Today());
             if not Rec.FindSet() then
                 Message(NoReservationsMsg);

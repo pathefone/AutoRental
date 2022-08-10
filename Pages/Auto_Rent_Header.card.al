@@ -13,39 +13,29 @@ page 50115 "Auto Rent Damage"
                 field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
+
                 }
-                field("Row No."; Rec."Row No.")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
+
                 }
                 field("Date"; Rec."Date")
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
+
                 }
                 field("Description"; Rec.Description)
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
+
                 }
             }
         }
     }
 
 
-    trigger OnAfterGetCurrRecord()
-    var
-        AutoRentHeader: Record "Auto Rent Header";
-    begin
-        AutoRentHeader.Get(Rec."Document No.");
 
-        if AutoRentHeader.Status = AutoRentHeader.Status::Released then
-            isEditable := false
-        else
-            isEditable := true;
-    end;
 
     var
         isEditable: Boolean;
@@ -66,12 +56,10 @@ page 50111 "Auto Rent Line"
                 field("Document No."; Rec."Document No.")
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
                 }
-                field("Row No."; Rec."Row No.")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
                 }
                 field("Type"; Rec."Type")
                 {
@@ -86,7 +74,6 @@ page 50111 "Auto Rent Line"
                 field("Description"; Rec.Description)
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
                 }
                 field("Quantity"; Rec.Quantity)
                 {
@@ -96,12 +83,10 @@ page 50111 "Auto Rent Line"
                 field("Price"; Rec.Price)
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
                 }
                 field("Sum"; Rec."Sum")
                 {
                     ApplicationArea = All;
-                    Editable = isEditable;
                 }
             }
 
@@ -208,6 +193,14 @@ page 50109 "Auto Rent Header Card"
                 }
             }
         }
+        area(FactBoxes)
+        {
+            part("Driver License Picture"; "Driver License")
+            {
+                Caption = 'Driver license';
+                SubPageLink = "No." = field("No.");
+            }
+        }
     }
 
 
@@ -275,11 +268,11 @@ page 50109 "Auto Rent Header Card"
 
                     // Transfer Auto Damage after returning a car
                     AutoRentDamage.SetRange("Document No.", Rec."No.");
+                    //AutoDamage.Init();
                     if AutoRentDamage.FindSet() then
                         repeat
-                            AutoDamage.Init();
                             AutoDamage."Auto No." := Rec."Auto No.";
-                            AutoDamage."Row No." := AutoDamageNo.GetNextRowNo(Rec."Auto No.");
+                            AutoDamage."Line No." := AutoDamageNo.GetNextRowNo(Rec."Auto No.");
                             AutoDamage."Date" := AutoRentDamage."Date";
                             AutoDamage.Description := AutoRentDamage.Description;
                             AutoDamage.Status := AutoDamage.Status::Active;
@@ -318,13 +311,13 @@ page 50109 "Auto Rent Header Card"
         Resource: Record Resource;
         AutoRentLine: Record "Auto Rent Line";
     begin
-        AutoRentLine.SetRange("Row No.", '1');
+        AutoRentLine.SetRange("Line No.", 1);
         AutoRentLine.SetRange("Document No.", Rec."No.");
         if not AutoRentLine.FindSet() then begin
             AutoRentLine.Reset;
             AutoRentLine.Init();
             AutoRentLine."Document No." := Rec."No.";
-            AutoRentLine."Row No." := '1';
+            AutoRentLine."Line No." := 1;
             AutoRentLine."Main Line" := true;
             AutoRentLine."Type" := AutoRentLine."Type"::Resource;
             Auto.Get(Rec."Auto No.");

@@ -17,11 +17,10 @@ table 50109 "Finished Auto Rent Header"
             Caption = 'Client No.';
             Editable = false;
         }
-        field(11; "Driver License"; Blob)
+        field(11; "Driver License"; Media)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = CustomerContent;
             Caption = 'Driver License';
-            SubType = Bitmap;
         }
         field(12; "Date"; Date)
         {

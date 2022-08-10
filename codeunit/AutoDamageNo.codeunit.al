@@ -9,6 +9,6 @@ codeunit 50103 "Auto Damage No"
         if not AutoDamage.FindLast() then
             AutoDamage.Init();
 
-        exit(AutoDamage."Row No." + 1);
+        exit(AutoDamage."Line No." + 1);
     end;
 }

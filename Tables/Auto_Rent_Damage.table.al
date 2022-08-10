@@ -9,11 +9,13 @@ table 50100 "Auto Rent Damage"
         {
             DataClassification = CustomerContent;
             Caption = 'Document No.';
+            Editable = false;
         }
-        field(10; "Row No."; Integer)
+        field(10; "Line No."; Integer)
         {
             DataClassification = CustomerContent;
-            Caption = 'Row No.';
+            Caption = 'Line No.';
+            Editable = false;
         }
         field(11; "Date"; Date)
         {
@@ -29,11 +31,23 @@ table 50100 "Auto Rent Damage"
 
     keys
     {
-        key(Key1; "Document No.", "Row No.")
+        key(Key1; "Document No.", "Line No.")
         {
             Clustered = true;
         }
     }
+
+    trigger OnInsert()
+    var
+        AutoRentDamage: Record "Auto Rent Damage";
+    begin
+        AutoRentDamage.SetRange("Document No.", Rec."Document No.");
+
+        if not AutoRentDamage.FindLast() then
+            AutoRentDamage.Init()
+        else
+            Rec."Line No." := AutoRentDamage."Line No." + 10000;
+    end;
 
 
 

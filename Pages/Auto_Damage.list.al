@@ -11,7 +11,7 @@ page 50107 "Auto Damage List"
         {
             repeater(GroupName)
             {
-                field("Row No."; Rec."Row No.")
+                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
                 }

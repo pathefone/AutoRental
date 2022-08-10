@@ -4,7 +4,7 @@ page 50108 "Auto Rent Header List"
     ApplicationArea = All;
     UsageCategory = Lists;
     SourceTable = "Auto Rent Header";
-    Caption = 'Auto Rent Header List';
+    Caption = 'Auto Rent';
 
     layout
     {

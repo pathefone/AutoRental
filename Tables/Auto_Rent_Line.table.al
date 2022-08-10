@@ -10,12 +10,13 @@ table 50108 "Auto Rent Line"
             DataClassification = CustomerContent;
             Caption = 'Document No.';
             TableRelation = "Auto Rent Header";
-
+            Editable = false;
         }
-        field(10; "Row No."; Code[10])
+        field(10; "Line No."; Integer)
         {
             DataClassification = CustomerContent;
-            Caption = 'Row No.';
+            Caption = 'Line No.';
+            Editable = false;
         }
         field(11; "Main Line"; Boolean)
         {
@@ -38,14 +39,14 @@ table 50108 "Auto Rent Line"
 
             trigger OnValidate()
             begin
-                GetPrice();
-                GetDescription();
+                GetData();
             end;
         }
         field(14; "Description"; Text[20])
         {
             DataClassification = CustomerContent;
             Caption = 'Description';
+            Editable = false;
         }
         field(15; "Quantity"; Decimal)
         {
@@ -61,46 +62,49 @@ table 50108 "Auto Rent Line"
         {
             DataClassification = CustomerContent;
             Caption = 'Price';
+            Editable = false;
         }
         field(17; "Sum"; Decimal)
         {
             DataClassification = CustomerContent;
             Caption = 'Sum';
+            Editable = false;
         }
 
     }
 
     keys
     {
-        key(Key1; "Document No.", "Row No.")
+        key(Key1; "Document No.", "Line No.")
         {
             Clustered = true;
         }
     }
 
-    local procedure GetPrice()
+    trigger OnInsert()
+    var
+        AutoRentLine: Record "Auto Rent Line";
+    begin
+        AutoRentLine.SetRange("Document No.", Rec."Document No.");
+
+        if not AutoRentLine.FindLast() then
+            AutoRentLine.Init()
+        else
+            Rec."Line No." := AutoRentLine."Line No." + 10000;
+    end;
+
+    local procedure GetData()
     begin
         if (Rec."Type" = Rec."Type"::Item) then begin
             Item.Get(Rec."No.");
             Rec.Price := Item."Unit Price";
-        end
-        else begin
-            Resource.Get(Rec."No.");
-            Rec.Price := Resource."Unit Price";
-        end;
-    end;
-
-    local procedure GetDescription()
-    begin
-        if (Rec."Type" = Rec."Type"::Item) then begin
-            Item.Get(Rec."No.");
             Rec.Description := Item.Description;
         end
         else begin
             Resource.Get(Rec."No.");
+            Rec.Price := Resource."Unit Price";
             Rec.Description := Resource.Name;
         end;
-        //could not find descr
     end;
 
     local procedure GetSum()

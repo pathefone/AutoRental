@@ -4,7 +4,7 @@ page 50112 "Finished Auto Rent Header List"
     ApplicationArea = All;
     UsageCategory = Lists;
     SourceTable = "Finished Auto Rent Header";
-    Caption = 'Finished Auto Rent Header List';
+    Caption = 'Finished Auto Rent';
 
     layout
     {
@@ -43,7 +43,7 @@ page 50112 "Finished Auto Rent Header List"
             }
         }
     }
-    
+
     actions
     {
         area(Processing)
@@ -57,5 +57,5 @@ page 50112 "Finished Auto Rent Header List"
             }
         }
     }
- 
+
 }
